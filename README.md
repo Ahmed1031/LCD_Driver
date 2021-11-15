@@ -7,3 +7,7 @@ under the control of a 4- or 8-bit microprocessor. Since all the functions such 
 generator, and liquid crystal driver, required for driving a dot-matrix liquid crystal display are internally
 provided on one chip, a minimal system can be interfaced with this controller/driver.
 
+Author : Ahmed Asim Ghouri 
+
+Email : asimghr@gmail.com
+
