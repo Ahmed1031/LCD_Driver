@@ -3,6 +3,12 @@ LIBRARY ieee;
 USE ieee.std_logic_1164.all;
 
 PACKAGE lcd_ssd_functions IS
+      constant lcd_functn_set1    : std_logic_vector(7 downto 0) := "0011XX00";
+		constant lcd_functn_set4    : std_logic_vector(7 downto 0) := "00111000";
+		constant lcd_clr_display    : std_logic_vector(7 downto 0) := "00000001";
+		constant lcd_display_cntrl  : std_logic_vector(7 downto 0) := "00001100";
+		constant lcd_entry_mode     : std_logic_vector(7 downto 0) := "00000110";
+		constant lcd_return_home    : std_logic_vector(7 downto 0) := "10000000";
 		FUNCTION integer_to_ssd (SIGNAL input: NATURAL) RETURN STD_LOGIC_VECTOR;
 		FUNCTION integer_to_lcd (SIGNAL input: NATURAL) RETURN STD_LOGIC_VECTOR;
 END lcd_ssd_functions;

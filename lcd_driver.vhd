@@ -6,9 +6,9 @@ USE work.lcd_ssd_functions.all;
 ENTITY lcd_driver IS
 GENERIC (clk_divider: POSITIVE := 50_000); --50MHz to 500Hz
 PORT (
-   CLOCK_50		: in std_logic;
+    CLOCK_50	: in std_logic;
 	KEY		  	: in std_logic_vector (3 downto 0);  -- pulled high / KEY and Button are the same 
-	SW			  	: IN NATURAL RANGE 0 TO 15; -- pulled high
+	SW			: IN NATURAL RANGE 0 TO 15; -- pulled high
 
    -- Seven Segment display 
    HEX0S       : out std_logic_vector (6 downto 0);
@@ -74,55 +74,55 @@ END PROCESS;
 					 WHEN FunctionSet1 =>
 					 LCD_RS<='0'; 
 					 LCD_RW<='0';
-					 LCD_DATA <= "0011XX00";
+					 LCD_DATA <= lcd_functn_set1;
 					 nx_state <= FunctionSet2;
 					 
 					 WHEN FunctionSet2 =>
 					 LCD_RS<='0'; 
 					 LCD_RW<='0';
-					 LCD_DATA <= "0011XX00";
+					 LCD_DATA <= lcd_functn_set1;
 					 nx_state <= FunctionSet3;
 					 
 					 WHEN FunctionSet3 =>
 					 LCD_RS<='0';
 					 LCD_RW<='0';
-					 LCD_DATA <= "0011XX00";
+					 LCD_DATA <= lcd_functn_set1;
 					 nx_state <= FunctionSet4;
 					 
 					 WHEN FunctionSet4 =>
 					 LCD_RS<='0';
 					 LCD_RW<='0';
-					 LCD_DATA <= "00111000";
+					 LCD_DATA <= lcd_functn_set4;
 					 nx_state <= ClearDisplay;
 					 
 					 WHEN ClearDisplay =>
 					 LCD_RS<='0';
 					 LCD_RW<='0';
-					 LCD_DATA <= "00000001";
+					 LCD_DATA <= lcd_clr_display;
 					 nx_state <= DisplayControl;
 					 
 					 WHEN DisplayControl =>
 					 LCD_RS<='0';
 					 LCD_RW<='0';
-					 LCD_DATA <= "00001100";
+					 LCD_DATA <= lcd_display_cntrl;
 					 nx_state <= EntryMode;
 					 
 					 WHEN EntryMode =>
 					 LCD_RS<='0';
 					 LCD_RW<='0';
-					 LCD_DATA <= "00000110";
+					 LCD_DATA <= lcd_entry_mode;
 					 nx_state <= WriteData;
 					 
 					 WHEN WriteData =>
 					 LCD_RS<='1';
 					 LCD_RW<='0';
-                LCD_DATA <= LCD_DATAi;
-                nx_state <=ReturnHome;
+                     LCD_DATA <= LCD_DATAi;
+                     nx_state <=ReturnHome;
 					 
 					 WHEN ReturnHome =>
 					 LCD_RS<='0';
 					 LCD_RW<='0';
-					 LCD_DATA <= "10000000";
+					 LCD_DATA <= lcd_return_home;
 					 nx_state <= WriteData;
             END CASE;
       END PROCESS;
