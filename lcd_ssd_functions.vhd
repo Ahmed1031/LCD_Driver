@@ -3,12 +3,22 @@ LIBRARY ieee;
 USE ieee.std_logic_1164.all;
 
 PACKAGE lcd_ssd_functions IS
-      constant lcd_functn_set1    : std_logic_vector(7 downto 0) := "0011XX00";
-		constant lcd_functn_set4    : std_logic_vector(7 downto 0) := "00111000";
-		constant lcd_clr_display    : std_logic_vector(7 downto 0) := "00000001";
-		constant lcd_display_cntrl  : std_logic_vector(7 downto 0) := "00001100";
-		constant lcd_entry_mode     : std_logic_vector(7 downto 0) := "00000110";
-		constant lcd_return_home    : std_logic_vector(7 downto 0) := "10000000";
+        constant lcd_functn_set1    : std_logic_vector(7 downto 0) := "0011XX00"; --<< Function set for 8-bit
+		constant lcd_functn_set4    : std_logic_vector(7 downto 0) := "00111000"; --<< 8-bits , 2-lines , 5x8 dots 
+		constant lcd_clr_display    : std_logic_vector(7 downto 0) := "00000001"; --<< Clears entire display and sets DDRAM address 0 in address counter.
+		constant lcd_display_cntrl  : std_logic_vector(7 downto 0) := "00001100"; --<< Display ON , Cursur not display, Cursur not blinking
+		constant lcd_display_cntrl1 : std_logic_vector(7 downto 0) := "00001110"; --<< Display ON , Cursur ON
+		constant lcd_write_H        : std_logic_vector(7 downto 0) := "01001000"; --<< Write H to DDRAM 
+		constant lcd_write_I        : std_logic_vector(7 downto 0) := "01001001"; --<< Write I to DDRAM
+		constant lcd_write_T        : std_logic_vector(7 downto 0) := "01010100"; --<< Write T to DDRAM
+		constant lcd_write_A        : std_logic_vector(7 downto 0) := "01000001"; --<< Write A to DDRAM
+		constant lcd_write_C        : std_logic_vector(7 downto 0) := "01000011"; --<< Write C to DDRAM
+		constant lcd_entry_mode     : std_logic_vector(7 downto 0) := "00000110"; --<< Increment on
+		constant lcd_entry_mode1    : std_logic_vector(7 downto 0) := "00000111"; --<< Sets mode to shift display at the time of write.
+		constant lcd_return_home    : std_logic_vector(7 downto 0) := "10000000"; --<< Sets DDRAM address to zero
+		constant lcd_return_home1   : std_logic_vector(7 downto 0) := "00000010"; --<< Returns both display and cursor to the original position
+		---------------------------------------------------------------------------------------------------------
+		-- 8-Bit Operation, 8-Digit ´ 1-Line Display Example with Internal Reset
 		FUNCTION integer_to_ssd (SIGNAL input: NATURAL) RETURN STD_LOGIC_VECTOR;
 		FUNCTION integer_to_lcd (SIGNAL input: NATURAL) RETURN STD_LOGIC_VECTOR;
 END lcd_ssd_functions;

@@ -29,7 +29,8 @@ PORT (
 ARCHITECTURE led_ssd_lcd_driver OF lcd_driver IS
 
 TYPE state IS (FunctionSet1, FunctionSet2, FunctionSet3, FunctionSet4,
-ClearDisplay, DisplayControl, EntryMode, WriteData, ReturnHome);
+ClearDisplay, DisplayControl, EntryMode, WriteData, WriteData_1, WriteData_2,
+WriteData_3, WriteData_4, WriteData_5, WriteData_6, ReturnHome1, ReturnHome);
 
 SIGNAL pr_state, nx_state: state;
 
@@ -72,28 +73,38 @@ END PROCESS;
       CASE pr_state IS
 					 ---Initialize LCD:
 					 WHEN FunctionSet1 =>
-					 LCD_RS<='0'; 
-					 LCD_RW<='0';
-					 LCD_DATA <= lcd_functn_set1;
-					 nx_state <= FunctionSet2;
+					 	 LCD_RS<='0'; 
+						 LCD_RW<='0';
+						 LCD_DATA <= lcd_functn_set1;
+					     nx_state <= FunctionSet2;
 					 
 					 WHEN FunctionSet2 =>
-					 LCD_RS<='0'; 
-					 LCD_RW<='0';
-					 LCD_DATA <= lcd_functn_set1;
-					 nx_state <= FunctionSet3;
+						 LCD_RS<='0'; 
+						 LCD_RW<='0';
+						 LCD_DATA <= lcd_functn_set1;
+					     nx_state <= FunctionSet3;
 					 
 					 WHEN FunctionSet3 =>
-					 LCD_RS<='0';
-					 LCD_RW<='0';
-					 LCD_DATA <= lcd_functn_set1;
-					 nx_state <= FunctionSet4;
+						 LCD_RS<='0';
+						 LCD_RW<='0';
+						 LCD_DATA <= lcd_functn_set1;
+					     nx_state <= FunctionSet4;
 					 
 					 WHEN FunctionSet4 =>
-					 LCD_RS<='0';
-					 LCD_RW<='0';
-					 LCD_DATA <= lcd_functn_set4;
-					 nx_state <= ClearDisplay;
+					 
+					  if KEY(0) = '0' THEN 
+					 	 LCD_RS <='0';
+					     LCD_RW <='0';
+						 LCD_DATA <= lcd_display_cntrl1;
+						 nx_state <= EntryMode;
+						 
+					  ELSE				  
+						  
+						 LCD_RS<='0';
+						 LCD_RW<='0';
+						 LCD_DATA <= lcd_functn_set4;
+						 nx_state <= ClearDisplay;
+					  END IF ;	 
 					 
 					 WHEN ClearDisplay =>
 					 LCD_RS<='0';
@@ -113,11 +124,65 @@ END PROCESS;
 					 LCD_DATA <= lcd_entry_mode;
 					 nx_state <= WriteData;
 					 
+					 					 
 					 WHEN WriteData =>
 					 LCD_RS<='1';
 					 LCD_RW<='0';
-                     LCD_DATA <= LCD_DATAi;
-                     nx_state <=ReturnHome;
+					  if KEY(0) = '0' then  
+						 LCD_DATA <= lcd_write_H; -- Write "H" 
+						 nx_state <= WriteData_1;
+					  else 
+					    LCD_DATA <= LCD_DATAi;
+						nx_state <= ReturnHome;
+				      end if; 	
+
+					 WHEN WriteData_1 => 
+					 LCD_RS<='1';
+					 LCD_RW<='0';
+					 LCD_DATA <= lcd_write_I; -- Write "I" 
+					 nx_state <= WriteData_2;
+					  
+					 WHEN WriteData_2 => 
+					 LCD_RS<='1';
+					 LCD_RW<='0';
+					 LCD_DATA <= lcd_write_T; -- Write "T" 
+					 nx_state <= WriteData_3; 
+					 
+					 WHEN WriteData_3 => 
+					 LCD_RS<='1';
+					 LCD_RW<='0';
+					 LCD_DATA <= lcd_write_A; -- Write "A" 
+					 nx_state <= WriteData_4; 
+					 
+					 WHEN WriteData_4 => 
+					 LCD_RS<='1';
+					 LCD_RW<='0';
+					 LCD_DATA <= lcd_write_C; -- Write "C" 
+					 nx_state <= WriteData_5; 
+					 
+					 WHEN WriteData_5 => 
+					 LCD_RS<='1';
+					 LCD_RW<='0';
+					 LCD_DATA <= lcd_write_H; -- Write "H" 
+					 nx_state <= WriteData_6; 
+					  
+					 WHEN WriteData_6 => 
+					 LCD_RS<='1';
+					 LCD_RW<='0';
+					 LCD_DATA <= lcd_write_I; -- Write "I" 
+					 nx_state <= ReturnHome1; 
+
+					 WHEN ReturnHome1 =>
+					 LCD_RS<='0';
+					 LCD_RW<='0';
+					 if KEY(0) = '0' then  
+					    LCD_DATA <= lcd_return_home1;
+					    nx_state <= ReturnHome1;
+				     else 
+                        LCD_DATA <= lcd_return_home1;
+					         nx_state <= ReturnHome;
+                 end if;						
+                         					  
 					 
 					 WHEN ReturnHome =>
 					 LCD_RS<='0';
